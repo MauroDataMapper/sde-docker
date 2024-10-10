@@ -11,16 +11,20 @@ precompiledBuild(){
    fi
 
   MDM_EXPLORER_URL="https://mauro-repository.com/${MDM_EXPLORER_LIBRARY}/mauroDataMapper/mdm-explorer/mdm-explorer-${MDM_EXPLORER_VERSION}.tgz"
+  SDE_RESEARCHER_API_ENDPOINT="http://localhost:8094/"
 
   echo "Downloading precompiled sources ${MDM_EXPLORER_URL}"
 
   cd /opt || exit
   curl -LO "$MDM_EXPLORER_URL"
   tar xzf "mdm-explorer-${MDM_EXPLORER_VERSION}.tgz"
+  ls
   mkdir "$MDM_EXPLORER_BUILD_HOME"
   cp -r "mdm-explorer-${MDM_EXPLORER_VERSION}"/* "$MDM_EXPLORER_BUILD_HOME"
 
   find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|apiEndpoint:\"api\",|apiEndpoint:\"${MDM_EXPLORER_API_ENDPOINT}\",|g" -i {} \;
+  find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|baseUrl:undefined|baseUrl:\"${SDE_RESEARCHER_API_ENDPOINT}\"|g" -i {} \;
+
 }
 
 precompiledBuild

@@ -1,0 +1,25 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="sde.management">
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://postgres:5432/sdecore" />
+            <property name="jakarta.persistence.jdbc.user" value="sdecore" />
+            <property name="jakarta.persistence.jdbc.password" value="sdecore" />
+
+            <property name="hibernate.default_schema" value="management"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="hibernate.physical_naming_strategy" value="sde.hibernate.CamelCaseToSnakeCaseStrategy"/>
+
+            <property name="hibernate.show_sql" value="true"/> <!-- Show SQL in console -->
+            <property name="hibernate.format_sql" value="true"/> <!-- Show SQL formatted -->
+        </properties>
+    </persistence-unit>
+</persistence>

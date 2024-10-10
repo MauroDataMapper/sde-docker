@@ -1,5 +1,22 @@
 version: '3.8'
 services:
+    keycloak:
+        build:
+           context: keycloak
+           dockerfile: Dockerfile
+        ports:
+           - "8095:8080"
+        restart: on-failure
+        command: start-dev --import-realm --proxy-headers xforwarded
+    azurite:
+        build:
+           context: azurite
+           dockerfile: Dockerfile
+        ports:
+          - "10000:10000"
+          - "10001:10001"
+          - "10002:10002"
+        restart: on-failure	  
     postgres:
         image: "maurodatamapper/postgres:12.14-alpine"
         build: ./postgres
@@ -9,22 +26,89 @@ services:
         volumes:
             - postgres12:/var/lib/postgresql/data
         restart: on-failure
+    sde-admin-api:
+        build:
+           context: sde-admin-api
+           dockerfile: Dockerfile
+        ports:
+         - "8093:8081"
+        depends_on:
+            - postgres
+            - keycloak
+            - azurite
+        environment:
+#           AZURE_CLIENT_ID:
+#           AZURE_CLIENT_SECRET:
+#           AZURE_STORAGE_CONTAINER:
+#           AZURE_STORAGE_ENDPOINT:
+#           AZURE_TENANT_ID:
+           AZURITE_ACCOUNT_KEY:
+           AZURITE_ACCOUNT_NAME:
+           AZURITE_STORAGE_CONTAINER:
+           AZURITE_STORAGE_ENDPOINT: "http://localhost:10000"
+           JWT_TOKEN_ENCRYPTION_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
+           JWT_TOKEN_SIGNATURE_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
+           MDM_EXPLORER_BASE_URL: "http://localhost:8082/explorer"
+           OAUTH_KEYCLOAK_CLIENT_ID: "sde-admin"
+           OAUTH_KEYCLOAK_CLIENT_SECRET: "pGtJr8QPA9qCZxkHb5UWVMJmy7mLmGXo"
+           OAUTH_KEYCLOAK_ENABLED: true
+           OAUTH_KEYCLOAK_ISSUER_URL: "http://keycloak:8080/realms/test/"
+#           OAUTH_MS_AZURE_CLIENT_ID:
+#           OAUTH_MS_AZURE_CLIENT_SECRET:
+#           OAUTH_MS_AZURE_ENABLED: false
+#           OAUTH_MS_AZURE_ISSUER_URL:
+           SDE_ADMIN_UI_BASE_URL: "http://localhost:8082/sde-admin"
+           USE_AZURITE_STORAGE: "true"
+    sde-researcher-api:
+        build:
+           context: sde-researcher-api
+           dockerfile: Dockerfile
+        ports:
+         - "8094:8082"
+        depends_on:
+            - postgres
+            - keycloak
+            - azurite
+        environment:
+#           AZURE_CLIENT_ID:
+#           AZURE_CLIENT_SECRET:
+#           AZURE_STORAGE_CONTAINER:
+#           AZURE_STORAGE_ENDPOINT:
+#           AZURE_TENANT_ID:
+           AZURITE_ACCOUNT_KEY:
+           AZURITE_ACCOUNT_NAME:
+           AZURITE_STORAGE_CONTAINER:
+           AZURITE_STORAGE_ENDPOINT: http://azurite:10000
+           JWT_TOKEN_ENCRYPTION_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
+           JWT_TOKEN_SIGNATURE_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
+           MDM_EXPLORER_BASE_URL: http://localhost:8082/explorer
+           OAUTH_KEYCLOAK_CLIENT_ID: mdm
+           OAUTH_KEYCLOAK_CLIENT_SECRET: 4b3b7290-7629-4b88-b310-df256adc8fed
+           OAUTH_KEYCLOAK_ENABLED: true
+           OAUTH_KEYCLOAK_ISSUER_URL: http://keycloak:8080/realms/test/
+#           OAUTH_MS_AZURE_CLIENT_ID:
+#           OAUTH_MS_AZURE_CLIENT_SECRET:
+           OAUTH_MS_AZURE_ENABLED: false
+#           OAUTH_MS_AZURE_ISSUER_URL:
+           SDE_ADMIN_UI_BASE_URL: http://localhost:8082/sde-admin
+           USE_AZURITE_STORAGE: true
     mauro-data-mapper:
         image: "maurodatamapper/mauro-data-mapper:${MDM_TAG}"
         build:
             context: mauro-data-mapper
             args:
                 MDM_APPLICATION_COMMIT: "${MDM_APPLICATION_COMMIT}"
-                MDM_UI_COMMIT: "${MDM_UI_COMMIT}"
-                ADDITIONAL_PLUGINS: ""
+                MDM_UI_COMMIT: "develop"
+                ADDITIONAL_PLUGINS: "uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-authentication-openid-connect:2.3.0-SNAPSHOT;uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-explorer:1.0.0-SNAPSHOT"
                 MDM_UI_THEME_NAME: "default"
                 CACHE_BURST: "${CACHE_BURST}"
-                MDM_EXPLORER_API_ENDPOINT: "http://localhost:${MDM_PORT}/api"
+                MDM_EXPLORER_API_ENDPOINT: "http://localhost:8082/api"
+                SDE_RESEARCHER_API_ENDPOINT: "http://localhost:8094/"
         environment:
             PGPASSWORD: postgresisawesome
             runtime.config.path: /usr/local/tomcat/conf/runtime.yml
         ports:
-            - "${MDM_PORT}:8080"
+            - "8082:8080"
         depends_on:
             - postgres
         volumes:
@@ -33,6 +117,7 @@ services:
             - ./shared_volumes/tmp:/tmp
             - ./mauro-data-mapper/config/runtime.yml:/usr/local/tomcat/conf/runtime.yml
         restart: on-failure
+
 # Persistence capability to systems,
 # Any volumes labelled below will ensure persistence when containers removed unless the volume is removed as well
 volumes:
@@ -40,3 +125,4 @@ volumes:
         driver: local
     lucene_index:
         driver: local
+

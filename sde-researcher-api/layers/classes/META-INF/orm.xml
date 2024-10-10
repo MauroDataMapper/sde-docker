@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings
+        xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_0.xsd"
+        version="2.0">
+
+    <package>sde.management</package>
+    <entity class="sde.management.entities.requests.HelpRequest"></entity>
+    <entity class="sde.management.entities.ResearchUser"></entity>
+    <entity class="sde.management.entities.AdminUser"></entity>
+    <entity class="sde.management.entities.DepartmentalApprovalRequirement"></entity>
+    <entity class="sde.management.entities.ResearchUserApproval"></entity>
+    <entity class="sde.management.entities.Department"></entity>
+    <entity class="sde.management.entities.DepartmentMember"></entity>
+    <entity class="sde.management.entities.DepartmentMemberHistory"></entity>
+    <entity class="sde.management.entities.requests.RequestUpdate"></entity>
+    <entity class="sde.management.entities.File"></entity>
+    <entity class="sde.management.entities.Organisation"></entity>
+    <entity class="sde.management.entities.OrganisationMember"></entity>
+    <entity class="sde.management.entities.requests.RequestAttachment"></entity>
+    <entity class="sde.management.entities.requests.ResourceRequest"></entity>
+    <entity class="sde.management.entities.requests.DataRequest"></entity>
+    <entity class="sde.management.entities.requests.ImportRequest"></entity>
+    <entity class="sde.management.entities.requests.ExportRequest"></entity>
+    <entity class="sde.management.entities.requests.ArchiveRequest"></entity>
+    <entity class="sde.management.entities.Project"></entity>
+    <entity class="sde.management.entities.ProjectMember"></entity>
+    <entity class="sde.management.entities.ProjectMemberHistory"></entity>
+    <entity class="sde.management.entities.requests.InformationRequest"></entity>
+    <entity class="sde.management.entities.requests.NewProjectRequest"></entity>
+    <entity class="sde.management.entities.requests.NewProjectDepartment"></entity>
+    <entity class="sde.management.entities.requests.ProjectChangeRequest"></entity>
+    <entity class="sde.management.entities.requests.ProjectDepartmentChangeRequest"></entity>
+    <entity class="sde.management.entities.Audit"></entity>
+</entity-mappings>
