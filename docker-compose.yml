@@ -27,6 +27,7 @@ services:
             - postgres12:/var/lib/postgresql/data
         restart: on-failure
     sde-admin-api:
+        env_file: .env
         build:
            context: sde-admin-api
            dockerfile: Dockerfile
@@ -36,30 +37,8 @@ services:
             - postgres
             - keycloak
             - azurite
-        environment:
-#           AZURE_CLIENT_ID:
-#           AZURE_CLIENT_SECRET:
-#           AZURE_STORAGE_CONTAINER:
-#           AZURE_STORAGE_ENDPOINT:
-#           AZURE_TENANT_ID:
-           AZURITE_ACCOUNT_KEY:
-           AZURITE_ACCOUNT_NAME:
-           AZURITE_STORAGE_CONTAINER:
-           AZURITE_STORAGE_ENDPOINT: "http://localhost:10000"
-           JWT_TOKEN_ENCRYPTION_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
-           JWT_TOKEN_SIGNATURE_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
-           MDM_EXPLORER_BASE_URL: "http://localhost:8082/explorer"
-           OAUTH_KEYCLOAK_CLIENT_ID: "sde-admin"
-           OAUTH_KEYCLOAK_CLIENT_SECRET: "pGtJr8QPA9qCZxkHb5UWVMJmy7mLmGXo"
-           OAUTH_KEYCLOAK_ENABLED: true
-           OAUTH_KEYCLOAK_ISSUER_URL: "http://keycloak:8080/realms/test/"
-#           OAUTH_MS_AZURE_CLIENT_ID:
-#           OAUTH_MS_AZURE_CLIENT_SECRET:
-#           OAUTH_MS_AZURE_ENABLED: false
-#           OAUTH_MS_AZURE_ISSUER_URL:
-           SDE_ADMIN_UI_BASE_URL: "http://localhost:8082/sde-admin"
-           USE_AZURITE_STORAGE: "true"
     sde-researcher-api:
+        env_file: .env
         build:
            context: sde-researcher-api
            dockerfile: Dockerfile
@@ -69,29 +48,6 @@ services:
             - postgres
             - keycloak
             - azurite
-        environment:
-#           AZURE_CLIENT_ID:
-#           AZURE_CLIENT_SECRET:
-#           AZURE_STORAGE_CONTAINER:
-#           AZURE_STORAGE_ENDPOINT:
-#           AZURE_TENANT_ID:
-           AZURITE_ACCOUNT_KEY:
-           AZURITE_ACCOUNT_NAME:
-           AZURITE_STORAGE_CONTAINER:
-           AZURITE_STORAGE_ENDPOINT: http://azurite:10000
-           JWT_TOKEN_ENCRYPTION_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
-           JWT_TOKEN_SIGNATURE_GENERATOR_SECRET: Z3R8icQIZ8Ua00aSmbSM5FsCHR36fPUX
-           MDM_EXPLORER_BASE_URL: http://localhost:8082/explorer
-           OAUTH_KEYCLOAK_CLIENT_ID: mdm
-           OAUTH_KEYCLOAK_CLIENT_SECRET: 4b3b7290-7629-4b88-b310-df256adc8fed
-           OAUTH_KEYCLOAK_ENABLED: true
-           OAUTH_KEYCLOAK_ISSUER_URL: http://keycloak:8080/realms/test/
-#           OAUTH_MS_AZURE_CLIENT_ID:
-#           OAUTH_MS_AZURE_CLIENT_SECRET:
-           OAUTH_MS_AZURE_ENABLED: false
-#           OAUTH_MS_AZURE_ISSUER_URL:
-           SDE_ADMIN_UI_BASE_URL: http://localhost:8082/sde-admin
-           USE_AZURITE_STORAGE: true
     mauro-data-mapper:
         image: "maurodatamapper/mauro-data-mapper:${MDM_TAG}"
         build:
