@@ -360,7 +360,7 @@
     "username" : "mdm-admin",
     "enabled" : true,
     "totp" : false,
-    "emailVerified" : false,
+    "emailVerified" : true,
     "email" : "admin@maurodatamapper.com",
     "credentials" : [ {
       "id" : "c803a190-3487-4319-b85a-78bfff09eb48",
@@ -377,7 +377,30 @@
     },
     "notBefore" : 0,
     "groups" : [ ]
-  } ],
+  }, {
+    "id" : "4e087500-333e-4bb5-9f74-420ee85d3d8e",
+    "username" : "mdm-researcher",
+    "email" : "mdm-researcher@maurodata.org",
+    "emailVerified" : true,
+    "firstName" : "MDM",
+    "lastName" : "Researcher",
+    "createdTimestamp" : 1728644519622,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "aa5ea6e2-ed51-42a9-b3d5-57e3089b496c",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1728644535502,
+      "secretData" : "{\"value\":\"Bwr/HcD3U8evHleLQ6WyaXxNgZWhuFkVQSZ/oLKH+tg3nyRqbNyZGxSvrkK+eK0PZg2UIStpJPfmm6RBIDVLCA==\",\"salt\":\"mC3EI0jL6WE1PFGvK+n5BA==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-test" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }  ],
   "scopeMappings" : [ {
     "clientScope" : "offline_access",
     "roles" : [ "offline_access" ]
