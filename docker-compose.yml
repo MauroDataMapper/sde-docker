@@ -4,6 +4,8 @@ services:
         build:
            context: keycloak
            dockerfile: Dockerfile
+        depends_on:
+            - postgres
         ports:
            - "8095:8080"
         restart: on-failure
