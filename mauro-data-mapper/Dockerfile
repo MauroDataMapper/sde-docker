@@ -37,6 +37,14 @@ ARG CACHE_BURST=1
 RUN cd "$MDM_APPLICATION_HOME" && git fetch && git checkout "$MDM_APPLICATION_COMMIT" && if [[ `git status` != HEAD\ detached* ]]; then git pull; fi
 RUN cd "$MDM_UI_HOME" && git fetch && git checkout "$MDM_UI_COMMIT" && if [[ `git status` != HEAD\ detached* ]]; then git pull; fi
 RUN mkdir -p $MDM_EXPLORER_BUILD_HOME
+
+RUN mkdir -p /prebuilt-explorer
+COPY prebuilt-explorer /prebuilt-explorer
+
+RUN mkdir -p /prebuilt-sde-admin
+COPY prebuilt-sde-admin /prebuilt-sde-admin
+
+RUN mkdir -p /libs
 RUN mkdir -p $SDE_ADMIN_BUILD_HOME
 
 # Copy in the building scripts
@@ -80,6 +88,7 @@ ARG SDE_ADMIN_BUILD_HOME=/opt/sde-admin/dist
 ENV CATALINA_OPTS="-Xmx8g -Xms512m -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+UseCompressedOops"
 
 COPY --from=mdm-build ${MDM_BUILD_HOME} ${CATALINA_HOME}/webapps/ROOT
+COPY libs ${CATALINA_HOME}/webapps/ROOT/WEB-INF/lib
 COPY --from=mdm-build ${MDM_EXPLORER_BUILD_HOME} ${CATALINA_HOME}/webapps/explorer
 
 #RUN echo ${SDE_ADMIN_BUILD_HOME}

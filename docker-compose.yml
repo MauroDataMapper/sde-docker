@@ -39,6 +39,7 @@ services:
             - postgres
             - keycloak
             - azurite
+        restart: on-failure
     sde-researcher-api:
         env_file: .env
         build:
@@ -50,6 +51,7 @@ services:
             - postgres
             - keycloak
             - azurite
+        restart: on-failure
     mauro-data-mapper:
         image: "maurodatamapper/mauro-data-mapper:${MDM_TAG}"
         build:
@@ -74,6 +76,9 @@ services:
             - ./shared_volumes/logs/maurodatamapper:/usr/local/tomcat/logs
             - ./shared_volumes/tmp:/tmp
             - ./mauro-data-mapper/config/runtime.yml:/usr/local/tomcat/conf/runtime.yml
+            - ./mauro-data-mapper/prebuilt-explorer:/prebuilt-explorer
+            - ./mauro-data-mapper/prebuilt-sde-admin:/prebuilt-sde-admin
+            - ./mauro-data-mapper/libs:/libs
         restart: on-failure
 
 # Persistence capability to systems,

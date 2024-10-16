@@ -203,3 +203,5 @@ local.properties
 src/main/resources/*.properties
 shared_volumes/*
 mauro-data-mapper/mdm-ui/*
+mauro-data-mapper/prebuilt-explorer/*
+mauro-data-mapper/prebuilt-sde-admin/*
