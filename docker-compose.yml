@@ -8,7 +8,7 @@ services:
             - postgres
         ports:
            - "8095:8080"
-        restart: on-failure
+        restart: always
         command: start-dev --import-realm --proxy-headers xforwarded
     azurite:
         build:
@@ -18,7 +18,7 @@ services:
           - "10000:10000"
           - "10001:10001"
           - "10002:10002"
-        restart: on-failure	  
+        restart: always
     postgres:
         image: "maurodatamapper/postgres:12.14-alpine"
         build: ./postgres
@@ -58,17 +58,17 @@ services:
             context: mauro-data-mapper
             args:
                 MDM_APPLICATION_COMMIT: "${MDM_APPLICATION_COMMIT}"
-                MDM_UI_COMMIT: "develop"
+                MDM_UI_COMMIT: 'develop'
                 ADDITIONAL_PLUGINS: "uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-authentication-openid-connect:2.3.0-SNAPSHOT;uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-explorer:1.0.0-SNAPSHOT"
                 MDM_UI_THEME_NAME: "default"
                 CACHE_BURST: "${CACHE_BURST}"
-                MDM_EXPLORER_API_ENDPOINT: "http://localhost:8082/api"
-                SDE_RESEARCHER_API_ENDPOINT: "http://localhost:8094/"
+                MDM_EXPLORER_API_ENDPOINT: 'http://localhost:8082/api'
+                SDE_RESEARCHER_API_ENDPOINT: 'http://localhost:8094/'
         environment:
             PGPASSWORD: postgresisawesome
             runtime.config.path: /usr/local/tomcat/conf/runtime.yml
         ports:
-            - "8082:8080"
+            - "80:8080"
         depends_on:
             - postgres
         volumes:
