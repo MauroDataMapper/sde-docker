@@ -4,7 +4,7 @@ precompiledBuild(){
     echo 'Using pre-compiled source'
     echo SDE ADMIN BUILD HOME $SDE_ADMIN_BUILD_HOME
 
-    SDE_ADMIN_API_ENDPOINT="http://localhost:8093/"
+    SDE_ADMIN_API_ENDPOINT="https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/admin-api/"
 
   if [ -n "$( ls -A '/prebuilt-sde-admin' )" ]; then
     echo "A pre-existing build for SDE Admin System has been provided - using that instead of downloading a release"

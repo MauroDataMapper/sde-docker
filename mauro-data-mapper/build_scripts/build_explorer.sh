@@ -25,12 +25,14 @@ precompiledBuild(){
     curl -LO "$MDM_EXPLORER_URL"
     tar xzf "mdm-explorer-${MDM_EXPLORER_VERSION}.tgz"
     ls
+    rm -r "$MDM_EXPLORER_BUILD_HOME"
     mkdir "$MDM_EXPLORER_BUILD_HOME"
     cp -r "mdm-explorer-${MDM_EXPLORER_VERSION}"/* "$MDM_EXPLORER_BUILD_HOME"
 
   fi
 
-  SDE_RESEARCHER_API_ENDPOINT="http://localhost:8094/"
+  MDM_EXPLORER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api"
+  SDE_RESEARCHER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/researcher-api/"
 
   find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|apiEndpoint:\"api\"|apiEndpoint:\"${MDM_EXPLORER_API_ENDPOINT}\"|g" -i {} \;
   find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|baseUrl:undefined|baseUrl:\"${SDE_RESEARCHER_API_ENDPOINT}\"|g" -i {} \;

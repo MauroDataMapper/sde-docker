@@ -1,0 +1,68 @@
+micronaut:
+  application:
+    name: sdeManagementApisAdmin
+#  ssl:
+#    enabled: true
+#    build-self-signed: true
+#    port: 8081
+  server:
+    port: 8081
+    cors:
+      enabled: true
+    configurations:
+      ui:
+        allowed-origins:
+          - https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk
+          - https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk:8093
+    max-request-size: '50MB'
+    multipart:
+      max-file-size: '50MB'
+  security:
+    authentication: cookie
+    token:
+      jwt:
+        cookie:
+          cookie-max-age: 12h
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_TOKEN_SIGNATURE_GENERATOR_SECRET}
+              jws-algorithm: HS256
+        encryptions:
+          secret:
+            generator:
+              secret: ${JWT_TOKEN_ENCRYPTION_GENERATOR_SECRET}
+              jwe-algorithm: A256KW
+              encryption-method: A128CBC-HS256
+    oauth2:
+      callback-uri: 'https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/oauth/callback{/provider}'
+      clients:
+        microsoft-azure:
+          enabled: true
+          client-id: ${OAUTH_ADMIN_MS_AZURE_CLIENT_ID}
+          client-secret: ${OAUTH_ADMIN_MS_AZURE_CLIENT_SECRET}
+          openid:
+            issuer: ${OAUTH_ADMIN_MS_AZURE_ISSUER_URL}
+        keycloak:
+          enabled: false
+          client-id: mdm
+          client-secret: 4b3b7290-7629-4b88-b310-df256adc8fed
+          openid:
+            issuer: http://keycloak:8080/realms/test/
+    redirect:
+      login-success: https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/sde-admin/#/auth/finalize/sign-in-success
+      login-failure: https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/sde-admin/#/auth/finalize/sign-in-failed
+#      logout: https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/sde-admin/#/auth/finalize/sign-out
+      logout: https://login.microsoftonline.com/......
+netty:
+  default:
+    allocator:
+      max-order: 3
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false
+#For debugging:
+#logger:
+#  levels:
+#    io.netty: DEBUG
+#    io.micronaut: DEBUG

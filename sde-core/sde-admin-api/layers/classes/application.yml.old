@@ -1,8 +1,8 @@
 micronaut:
   application:
-    name: sdeManagementApisResearcher
+    name: sdeManagementApisAdmin
   server:
-    port: 8082
+    port: 8081
     cors:
       enabled: true
     max-request-size: '50MB'
@@ -32,15 +32,15 @@ micronaut:
 #          openid:
 #            issuer: ${OAUTH_MS_AZURE_ISSUER_URL:''}
         keycloak:
-          enabled: true
-          client-id: mdm
-          client-secret: 4b3b7290-7629-4b88-b310-df256adc8fed
+          enabled: ${OAUTH_KEYCLOAK_ENABLED}
+          client-id: ${OAUTH_KEYCLOAK_CLIENT_ID}
+          client-secret: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
           openid:
             issuer: http://keycloak:8080/realms/test/
     redirect:
-      login-success: http://localhost:8082/explorer/#/sde/auth/finalize/sign-in-success
-      login-failure: http://localhost:8082/explorer/#/sde/auth/finalize/sign-in-failed
-      logout: http://localhost:8082/explorer/#/sde/auth/finalize/sign-out
+      login-success: https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/sde-admin/#/auth/finalize/sign-in-success
+      login-failure: https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/sde-admin/#/auth/finalize/sign-in-failed
+      logout: https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/sde-admin/#/auth/finalize/sign-out
 netty:
   default:
     allocator:

@@ -28,30 +28,46 @@ services:
         volumes:
             - postgres12:/var/lib/postgresql/data
         restart: on-failure
-    sde-admin-api:
+    sde-core:
         env_file: .env
         build:
-           context: sde-admin-api
-           dockerfile: Dockerfile
+            context: sde-core
+            dockerfile: Dockerfile
+            args:
+                - SDE_CORE_GITHUB_PAT
+                - SDE_CORE_COMMIT=84055b71b66087a64033bd672e16b49aea0acc60
         ports:
-         - "8093:8081"
+            - "8081:8081"
+            - "8082:8082"
         depends_on:
             - postgres
             - keycloak
             - azurite
-        restart: on-failure
-    sde-researcher-api:
-        env_file: .env
-        build:
-           context: sde-researcher-api
-           dockerfile: Dockerfile
-        ports:
-         - "8094:8082"
-        depends_on:
-            - postgres
-            - keycloak
-            - azurite
-        restart: on-failure
+        # restart: on-failure
+#    sde-admin-api:
+#        env_file: .env
+#        build:
+#           context: sde-admin-api
+#           dockerfile: Dockerfile
+#        ports:
+#         - "8081:8081"
+#        depends_on:
+#            - postgres
+#            - keycloak
+#            - azurite
+#        restart: on-failure
+#    sde-researcher-api:
+#        env_file: .env
+#        build:
+#           context: sde-researcher-api
+#           dockerfile: Dockerfile
+#        ports:
+#         - "8094:8082"
+#        depends_on:
+#            - postgres
+#            - keycloak
+#            - azurite
+#        restart: on-failure
     mauro-data-mapper:
         image: "maurodatamapper/mauro-data-mapper:${MDM_TAG}"
         build:
@@ -59,16 +75,18 @@ services:
             args:
                 MDM_APPLICATION_COMMIT: "${MDM_APPLICATION_COMMIT}"
                 MDM_UI_COMMIT: 'develop'
-                ADDITIONAL_PLUGINS: "uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-authentication-openid-connect:2.3.0-SNAPSHOT;uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-explorer:1.0.0-SNAPSHOT"
+                ADDITIONAL_PLUGINS: "uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-authentication-openid-connect:2.3.0-SNAPSHOT;uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-explorer:1.0.0-OUH-TEST"
                 MDM_UI_THEME_NAME: "default"
                 CACHE_BURST: "${CACHE_BURST}"
-                MDM_EXPLORER_API_ENDPOINT: 'http://localhost:8082/api'
-                SDE_RESEARCHER_API_ENDPOINT: 'http://localhost:8094/'
+                MDM_EXPLORER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api'
+                SDE_RESEARCHER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk:8094/'
         environment:
             PGPASSWORD: postgresisawesome
             runtime.config.path: /usr/local/tomcat/conf/runtime.yml
+            MDM_EXPLORER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api'
+            SDE_RESEARCHER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk:8094/'
         ports:
-            - "80:8080"
+            - "8080:8080"
         depends_on:
             - postgres
         volumes:

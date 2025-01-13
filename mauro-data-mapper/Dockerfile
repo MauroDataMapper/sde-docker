@@ -16,14 +16,14 @@ ARG MDM_UI_FEATURE_SUBSCRIBED_CATALOGUES="true"
 ARG DEPLOY_MDM_EXPLORER=0
 ARG MDM_EXPLORER_VERSION="1.0.0-SNAPSHOT"
 ARG MDM_EXPLORER_BUILD_HOME=/opt/mdm-explorer/dist
-ARG MDM_EXPLORER_API_ENDPOINT="http://localhost:${MDM_PORT}/api"
-ARG SDE_RESEARCHER_API_ENDPOINT="http://localhost:8083"
+ARG MDM_EXPLORER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api"
+ARG SDE_RESEARCHER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/researcher-api"
 
 ARG DEPLOY_SDE_ADMIN=0
 ARG SDE_ADMIN_VERSION="1.0.0-SNAPSHOT"
 ARG SDE_ADMIN_BUILD_HOME="/opt/sde-admin/dist"
-ARG MDM_EXPLORER_API_ENDPOINT="http://localhost:${MDM_PORT}/api"
-ARG SDE_RESEARCHER_API_ENDPOINT="http://localhost:8094"
+ARG MDM_EXPLORER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api"
+ARG SDE_RESEARCHER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/researcher-api"
 
 # This is needed to ensure the fetch and checkout are always run
 # If the arg is passed in using a random value then it will invalidate the docker cache and force the following steps to re-run
@@ -88,7 +88,7 @@ ARG SDE_ADMIN_BUILD_HOME=/opt/sde-admin/dist
 ENV CATALINA_OPTS="-Xmx8g -Xms512m -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+UseCompressedOops"
 
 COPY --from=mdm-build ${MDM_BUILD_HOME} ${CATALINA_HOME}/webapps/ROOT
-COPY libs ${CATALINA_HOME}/webapps/ROOT/WEB-INF/lib
+#COPY libs ${CATALINA_HOME}/webapps/ROOT/WEB-INF/lib
 COPY --from=mdm-build ${MDM_EXPLORER_BUILD_HOME} ${CATALINA_HOME}/webapps/explorer
 
 #RUN echo ${SDE_ADMIN_BUILD_HOME}

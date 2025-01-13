@@ -10,6 +10,7 @@
     <entity class="sde.management.entities.requests.HelpRequest"></entity>
     <entity class="sde.management.entities.ResearchUser"></entity>
     <entity class="sde.management.entities.AdminUser"></entity>
+    <entity class="sde.management.entities.OrganisationalApprovalRequirement"></entity>
     <entity class="sde.management.entities.DepartmentalApprovalRequirement"></entity>
     <entity class="sde.management.entities.ResearchUserApproval"></entity>
     <entity class="sde.management.entities.Department"></entity>
@@ -29,9 +30,15 @@
     <entity class="sde.management.entities.ProjectMember"></entity>
     <entity class="sde.management.entities.ProjectMemberHistory"></entity>
     <entity class="sde.management.entities.requests.InformationRequest"></entity>
+    <entity class="sde.management.entities.requests.NewDepartmentRequest"></entity>
+    <entity class="sde.management.entities.requests.NewOrganisationRequest"></entity>
+    <entity class="sde.management.entities.requests.JoinOrganisationRequest"></entity>
     <entity class="sde.management.entities.requests.NewProjectRequest"></entity>
-    <entity class="sde.management.entities.requests.NewProjectDepartment"></entity>
     <entity class="sde.management.entities.requests.ProjectChangeRequest"></entity>
     <entity class="sde.management.entities.requests.ProjectDepartmentChangeRequest"></entity>
+    <entity class="sde.management.entities.requests.NewResearchUserRequest"></entity>
     <entity class="sde.management.entities.Audit"></entity>
+    <entity class="sde.management.entities.requests.MauroDataSpecification"></entity>
+    <entity class="sde.management.entities.requests.NewProjectEnquiryRequest"></entity>
 </entity-mappings>
+
