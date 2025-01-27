@@ -8,8 +8,7 @@ micronaut:
     configurations:
       ui:
         allowed-origins:
-          - http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk
-          - http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk:8094
+          - ${RESEARCHER_CORS_ORIGIN}
     max-request-size: '50MB'
     multipart:
       max-file-size: '50MB'
@@ -31,24 +30,24 @@ micronaut:
               jwe-algorithm: A256KW
               encryption-method: A128CBC-HS256
     oauth2:
-      callback-uri: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/oauth/callback{/provider}'
+      callback-uri: ${OAUTH_RESEARCHER_CALLBACK_URI}
       clients:
         microsoft-azure:
-          enabled: ${OAUTH_RESEARCHER_MS_AZURE_CLIENT_ENABLED}
+          enabled: ${OAUTH_RESEARCHER_MS_AZURE_ENABLED}
           client-id: ${OAUTH_RESEARCHER_MS_AZURE_CLIENT_ID}
           client-secret: ${OAUTH_RESEARCHER_MS_AZURE_CLIENT_SECRET}
           openid:
             issuer: ${OAUTH_RESEARCHER_MS_AZURE_ISSUER_URL}
         keycloak:
-          enabled: true
+          enabled: false
           client-id: mdm
           client-secret: 4b3b7290-7629-4b88-b310-df256adc8fed
           openid:
             issuer: http://keycloak:8080/realms/test/
     redirect:
-      login-success: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/explorer/#/sde/auth/finalize/sign-in-success'
-      login-failure: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/explorer/#/sde/auth/finalize/sign-in-failed'
-      logout: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/explorer/#/sde/auth/finalize/sign-out'
+      login-success: ${RESEARCHER_LOGIN_SUCCESS_URI}
+      login-failure: ${RESEARCHER_LOGIN_FAILURE_URI}
+      logout: ${RESEARCHER_LOGOUT_URI}
 netty:
   default:
     allocator:

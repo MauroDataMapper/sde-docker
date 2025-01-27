@@ -1,5 +1,5 @@
 FROM postgres:12.14-alpine
-COPY fixtures /docker-entrypoint-initdb.d
+COPY fixtures/ /docker-entrypoint-initdb.d/
 
 ENV POSTGRES_PASSWORD=postgresisawesome \
     DATABASE_HOST=postgres \

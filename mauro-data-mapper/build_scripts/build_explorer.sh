@@ -31,9 +31,6 @@ precompiledBuild(){
 
   fi
 
-  MDM_EXPLORER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api"
-  SDE_RESEARCHER_API_ENDPOINT="http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/researcher-api/"
-
   find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|apiEndpoint:\"api\"|apiEndpoint:\"${MDM_EXPLORER_API_ENDPOINT}\"|g" -i {} \;
   find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|baseUrl:undefined|baseUrl:\"${SDE_RESEARCHER_API_ENDPOINT}\"|g" -i {} \;
 

@@ -1,6 +1,7 @@
 version: '3.8'
 services:
     keycloak:
+        env_file: .env
         build:
            context: keycloak
            dockerfile: Dockerfile
@@ -8,6 +9,9 @@ services:
             - postgres
         ports:
            - "8095:8080"
+        environment:
+            - KC_HOSTNAME
+            - KC_HOSTNAME_PORT
         restart: always
         command: start-dev --import-realm --proxy-headers xforwarded
     azurite:
@@ -20,14 +24,13 @@ services:
           - "10002:10002"
         restart: always
     postgres:
-        image: "maurodatamapper/postgres:12.14-alpine"
         build: ./postgres
         shm_size: 512mb
         environment:
             POSTGRES_PASSWORD: postgresisawesome
         volumes:
             - postgres12:/var/lib/postgresql/data
-        restart: on-failure
+        restart: always
     sde-core:
         env_file: .env
         build:
@@ -43,33 +46,9 @@ services:
             - postgres
             - keycloak
             - azurite
-        # restart: on-failure
-#    sde-admin-api:
-#        env_file: .env
-#        build:
-#           context: sde-admin-api
-#           dockerfile: Dockerfile
-#        ports:
-#         - "8081:8081"
-#        depends_on:
-#            - postgres
-#            - keycloak
-#            - azurite
-#        restart: on-failure
-#    sde-researcher-api:
-#        env_file: .env
-#        build:
-#           context: sde-researcher-api
-#           dockerfile: Dockerfile
-#        ports:
-#         - "8094:8082"
-#        depends_on:
-#            - postgres
-#            - keycloak
-#            - azurite
-#        restart: on-failure
+        # restart: always
     mauro-data-mapper:
-        image: "maurodatamapper/mauro-data-mapper:${MDM_TAG}"
+        env_file: .env
         build:
             context: mauro-data-mapper
             args:
@@ -78,13 +57,12 @@ services:
                 ADDITIONAL_PLUGINS: "uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-authentication-openid-connect:2.3.0-SNAPSHOT;uk.ac.ox.softeng.maurodatamapper.plugins:mdm-plugin-explorer:1.0.0-OUH-TEST"
                 MDM_UI_THEME_NAME: "default"
                 CACHE_BURST: "${CACHE_BURST}"
-                MDM_EXPLORER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api'
-                SDE_RESEARCHER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk:8094/'
+                SDE_ADMIN_API_ENDPOINT: ${SDE_ADMIN_API_ENDPOINT:-http://localhost:8081/}
+                MDM_EXPLORER_API_ENDPOINT: ${MDM_EXPLORER_API_ENDPOINT:-http://localhost:8080/api}
+                SDE_RESEARCHER_API_ENDPOINT: ${SDE_RESEARCHER_API_ENDPOINT:-http://localhost:8082/}
         environment:
-            PGPASSWORD: postgresisawesome
-            runtime.config.path: /usr/local/tomcat/conf/runtime.yml
-            MDM_EXPLORER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/api'
-            SDE_RESEARCHER_API_ENDPOINT: 'http://portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk:8094/'
+            - PGPASSWORD=postgresisawesome
+            - runtime.config.path=/usr/local/tomcat/conf/runtime.yml
         ports:
             - "8080:8080"
         depends_on:
@@ -97,7 +75,7 @@ services:
             - ./mauro-data-mapper/prebuilt-explorer:/prebuilt-explorer
             - ./mauro-data-mapper/prebuilt-sde-admin:/prebuilt-sde-admin
             - ./mauro-data-mapper/libs:/libs
-        restart: on-failure
+        # restart: always
 
 # Persistence capability to systems,
 # Any volumes labelled below will ensure persistence when containers removed unless the volume is removed as well

@@ -4,8 +4,6 @@ precompiledBuild(){
     echo 'Using pre-compiled source'
     echo SDE ADMIN BUILD HOME $SDE_ADMIN_BUILD_HOME
 
-    SDE_ADMIN_API_ENDPOINT="https://admintest.thamesvalleyandsurreyhealthandcaredata.nhs.uk/admin-api/"
-
   if [ -n "$( ls -A '/prebuilt-sde-admin' )" ]; then
     echo "A pre-existing build for SDE Admin System has been provided - using that instead of downloading a release"
     cp -r /prebuilt-sde-admin/* "$SDE_ADMIN_BUILD_HOME"
@@ -39,7 +37,8 @@ precompiledBuild(){
   fi
    
 #  find "$MDM_EXPLORER_BUILD_HOME" -name main.*.js -exec sed -e "s|apiEndpoint:\"api\",|apiEndpoint:\"${MDM_EXPLORER_API_ENDPOINT}\",|g" -i {} \;
-   find "$SDE_ADMIN_BUILD_HOME" -name main.*.js -exec sed -e "s|baseUrl:\"api\"|baseUrl:\"${SDE_ADMIN_API_ENDPOINT}\"|g" -i {} \;
+    echo SDE_ADMIN_API_ENDPOINT=${SDE_ADMIN_API_ENDPOINT}
+    find "$SDE_ADMIN_BUILD_HOME" -name main.*.js -exec sed -e "s|baseUrl:\"api\"|baseUrl:\"${SDE_ADMIN_API_ENDPOINT}\"|g" -i {} \;
 
 }
 

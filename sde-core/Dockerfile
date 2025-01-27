@@ -28,13 +28,13 @@ WORKDIR /home
 COPY sde-admin-api/layers/classes /home/sde-admin-api/classes
 COPY sde-researcher-api/layers/classes /home/sde-researcher-api/classes
 
+RUN cp build/sde-core/management-model/src/main/resources/META-INF/orm.xml /home/sde-admin-api/classes/META-INF/
+RUN cp build/sde-core/management-model/src/main/resources/META-INF/orm.xml /home/sde-researcher-api/classes/META-INF/
+
 RUN cp build/sde-core/admin-api/build/libs/admin-api-0.1-all.jar sde-admin-api/
 RUN cp build/sde-core/researcher-api/build/libs/researcher-api-0.1-all.jar sde-researcher-api/
 
 WORKDIR /home/build/sde-core
 EXPOSE 8081 8082
-#ENTRYPOINT ["bash", "-c", "echo 'running flyway' && ./gradlew flywayMigrate && echo 'finished running flyway' && java -classpath /home/sde-admin-api/classes/:/home/sde-admin-api/admin-api-0.1-all.jar sde.management.apis.admin.Application & java -classpath /home/sde-researcher-api/classes/:/home/sde-researcher-api/researcher-api-0.1-all.jar sde.management.apis.researcher.Application"]
-#ENTRYPOINT ["bash", "-c", "./gradlew flywayMigrate"]
-
-ENTRYPOINT ["bash", "migrate-and-run.sh"]
+ENTRYPOINT ["/bin/sh", "migrate-and-run.sh"]
 

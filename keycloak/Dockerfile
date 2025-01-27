@@ -10,7 +10,4 @@ ENV KEYCLOAK_ADMIN=admin \
     KC_DB_USERNAME=keycloak \
     KC_DB_PASSWORD=keycloakpassword \
     KC_HOSTNAME_PATH=/ \
-    KC_HOSTNAME=portaltest.thamesvalleyandsurreyhealthandcaredata.nhs.uk \
-    KC_HOSTNAME_PORT=8095 \
 #    KC_LOG_LEVEL=DEBUG
-
