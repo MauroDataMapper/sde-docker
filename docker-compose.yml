@@ -33,6 +33,7 @@ services:
         restart: always
     sde-core:
         env_file: .env
+        env_file: .env_secrets
         build:
             context: sde-core
             dockerfile: Dockerfile

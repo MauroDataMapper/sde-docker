@@ -205,3 +205,6 @@ shared_volumes/*
 mauro-data-mapper/mdm-ui/*
 mauro-data-mapper/prebuilt-explorer/*
 mauro-data-mapper/prebuilt-sde-admin/*
+
+# Secret environment variables!
+.env_secrets
