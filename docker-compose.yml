@@ -33,13 +33,12 @@ services:
         restart: always
     sde-core:
         env_file: .env
-        env_file: .env_secrets
         build:
             context: sde-core
             dockerfile: Dockerfile
             args:
-                - SDE_CORE_GITHUB_PAT
-                - SDE_CORE_COMMIT=84055b71b66087a64033bd672e16b49aea0acc60
+                - SDE_CORE_GITHUB_PAT=${SDE_CORE_GITHUB_PAT}
+                - SDE_CORE_COMMIT=${SDE_CORE_COMMIT:-develop}
         ports:
             - "8081:8081"
             - "8082:8082"

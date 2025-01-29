@@ -3,7 +3,7 @@
 precompiledBuild(){
    echo 'Using pre-compiled source'
    
-  if [ -n "$( ls -A '/prebuilt-explorer' )" ]; then
+  if [ -n "$( ls '/prebuilt-explorer' )" ]; then
     echo "A pre-existing build for Mauro Explorer has been provided - using that instead of downloading a release"
     cp -r /prebuilt-explorer/* "$MDM_EXPLORER_BUILD_HOME"
   

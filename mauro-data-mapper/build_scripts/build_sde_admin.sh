@@ -4,7 +4,7 @@ precompiledBuild(){
     echo 'Using pre-compiled source'
     echo SDE ADMIN BUILD HOME $SDE_ADMIN_BUILD_HOME
 
-  if [ -n "$( ls -A '/prebuilt-sde-admin' )" ]; then
+  if [ -n "$( ls '/prebuilt-sde-admin' )" ]; then
     echo "A pre-existing build for SDE Admin System has been provided - using that instead of downloading a release"
     cp -r /prebuilt-sde-admin/* "$SDE_ADMIN_BUILD_HOME"
 
