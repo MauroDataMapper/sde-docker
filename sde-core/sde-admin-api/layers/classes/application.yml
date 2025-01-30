@@ -29,6 +29,9 @@ micronaut:
               secret: ${JWT_TOKEN_ENCRYPTION_GENERATOR_SECRET}
               jwe-algorithm: A256KW
               encryption-method: A128CBC-HS256
+        generator:
+          access-token:
+            expiration: 28800
     oauth2:
       callback-uri: ${OAUTH_ADMIN_CALLBACK_URI}
       clients:
